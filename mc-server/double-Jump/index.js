@@ -27,12 +27,13 @@ system.runInterval(() => {
             whoJumped[player.name] = false;
             return;
         }
-        if (whoJumped[player.name]) return;
+        if (whoJumped[player.name]) continue;
         system.runTimeout(() => {
-            if (!player.isJumping) return;
-            whoJumped[player.name] = true;
-            const di = player.getViewDirection();
-            player.applyKnockback(di.x, di.z, strength, di.y + vertical);
+            if (player.isJumping) {
+                whoJumped[player.name] = true;
+                const di = player.getViewDirection();
+                player.applyKnockback(di.x, di.z, strength, di.y + vertical);
+            }
         }, 3);
     }
 }, 3);
