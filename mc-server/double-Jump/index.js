@@ -17,31 +17,21 @@ import { system, world } from "@minecraft/server";
 const strength = 2.5;
 const vertical = 0.5;
 
-const whoJumped = {};
-
 system.runInterval(() => {
     const players = world.getPlayers({ excludeGameModes: ["creative"] });
     for (let i = 0; i < players.length; i++) {
         const player = players[i];
         if (player.isOnGround) {
-            whoJumped[player.name] = false;
+            player.hasJumped = false;
             return;
         }
-        if (whoJumped[player.name]) continue;
+        if (player.hasJumped) continue;
         system.runTimeout(() => {
             if (player.isJumping) {
-                whoJumped[player.name] = true;
+                player.hasJumped = true;
                 const di = player.getViewDirection();
                 player.applyKnockback(di.x, di.z, strength, di.y + vertical);
             }
         }, 3);
     }
 }, 3);
-
-world.afterEvents.playerJoin.subscribe((data) => {
-    whoJumped[data.playerName] = false;
-});
-
-world.afterEvents.playerLeave.subscribe((data) => {
-    delete whoJumped[data.playerName];
-});
