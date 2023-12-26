@@ -23,7 +23,7 @@ system.runInterval(() => {
         const player = players[i];
         if (player.isOnGround) {
             player.hasJumped = false;
-            return;
+            continue;
         }
         if (player.hasJumped) continue;
         system.runTimeout(() => {
