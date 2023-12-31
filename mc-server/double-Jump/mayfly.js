@@ -21,17 +21,15 @@ system.runInterval(() => {
     const players = world.getPlayers({ excludeGameModes: ["creative"] });
     for (let i = 0; i < players.length; i++) {
         const player = players[i];
-        if (player.isOnGround) {
-            player.hasJumped = false;
-            continue;
+        if (!player.hasJumped && player.isOnGround) {
+            player.runCommandAsync("ability @s mayfly true");
+            player.hasJumped = true;
         }
-        if (player.hasJumped) continue;
-        system.runTimeout(() => {
-            if (player.isJumping) {
-                player.hasJumped = true;
-                const di = player.getViewDirection();
-                player.applyKnockback(di.x, di.z, strength, di.y + vertical);
-            }
-        }, 3);
+        if (!player.isFlying) continue;
+        player.hasJumped = false;
+        player.runCommandAsync("gamemode s");
+        player.runCommandAsync("ability @s mayfly false");
+        const di = player.getViewDirection();
+        player.applyKnockback(di.x, di.z, strength, di.y + vertical);
     }
-}, 3);
+});
