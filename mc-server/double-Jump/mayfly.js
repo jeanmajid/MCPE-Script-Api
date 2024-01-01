@@ -21,12 +21,12 @@ system.runInterval(() => {
     const players = world.getPlayers({ excludeGameModes: ["creative"] });
     for (let i = 0; i < players.length; i++) {
         const player = players[i];
-        if (!player.hasJumped && player.isOnGround) {
+        if (player.hasJumped && player.isOnGround) {
             player.runCommandAsync("ability @s mayfly true");
-            player.hasJumped = true;
+            player.hasJumped = false;
         }
         if (!player.isFlying) continue;
-        player.hasJumped = false;
+        player.hasJumped = true;
         player.runCommandAsync("gamemode s");
         player.runCommandAsync("ability @s mayfly false");
         const di = player.getViewDirection();
