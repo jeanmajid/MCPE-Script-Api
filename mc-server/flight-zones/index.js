@@ -16,10 +16,6 @@ world.afterEvents.worldInitialize.subscribe(() => {
         data = data.split(":");
         flyAreas.push({ x1: data[0], z1: data[1], x2: data[2], z2: data[3] });
     }
-    const gamerules = ["playerssleepingpercentage 33", "sendcommandfeedback false", "commandblockoutput false"];
-    for (const gamerule of gamerules) {
-        world.getDimension("overworld").runCommandAsync(`gamerule ${gamerule}`);
-    }
 });
 
 world.beforeEvents.chatSend.subscribe((data) => {
