@@ -3,7 +3,7 @@ import { system, world } from "@minecraft/server";
 let flypos1 = { x: undefined, z: undefined };
 let flypos2 = { x: undefined, z: undefined };
 
-const flyAreas = [];
+let flyAreas = [];
 let interval = 160;
 let run = 0;
 
@@ -33,6 +33,7 @@ system.afterEvents.scriptEventReceive.subscribe((data) => {
         case "flyzone":
             if (!args[0] || !flypos1.x || !flypos2.x || !flypos1.z || !flypos2.z)
                 return player.sendMessage("§cUse !flypos1 and !flypos2 to set the box positions, and then use !flyzone <name> to set the name of the zone");
+            if (world.getDynamicProperty(`jmfz:${args[0]}`)) return player.sendMessage(`§cThe flight zone ${args[0]} already exists`);
             world.setDynamicProperty(`jmfz:${args[0]}`, `${flypos1.x}:${flypos1.z}:${flypos2.x}:${flypos2.z}`);
             const flyArea = { x1: flypos1.x, z1: flypos1.z, x2: flypos2.x, z2: flypos2.z };
             flyArea.minX = Math.min(flyArea.x1, flyArea.x2);
@@ -43,14 +44,31 @@ system.afterEvents.scriptEventReceive.subscribe((data) => {
             player.sendMessage(`§aThe flight zone with the name ${args[0]} has been created. Positions: x1: ${flypos1.x}, z1: ${flypos1.z}, x2: ${flypos2.x}, z2: ${flypos2.z}`);
             break;
         case "flydelete":
+            const flyZonedata = world.getDynamicProperty(`jmfz:${args[0]}`);
+            if (!flyZonedata) return player.sendMessage(`§cThe flight zone ${args[0]} does not exist`);
+            flyAreas = flyAreas.filter((flyArea) => {
+                const { x1, z1, x2, z2 } = flyArea;
+                const data = flyZonedata.split(":");
+                if (x1 === parseInt(data[0]) && z1 === parseInt(data[1]) && x2 === parseInt(data[2]) && z2 === parseInt(data[3])) return false;
+                return true;
+            });
             world.setDynamicProperty(`jmfz:${args[0]}`, undefined);
+            registerInterval();
             player.sendMessage(`§aThe flight zone ${args[0]} has been successfully deleted`);
+            for (const player of world.getAllPlayers()) {
+                if (player.inF) {
+                    player.runCommandAsync("gamemode s");
+                    player.runCommandAsync("ability @s mayfly false");
+                    player.inF = false;
+                }
+            }
             break;
         case "flyshowall":
             world.getDynamicPropertyIds().forEach((id) => {
                 if (!id.startsWith("jmfz:")) return;
                 const data = world.getDynamicProperty(id);
-                player.sendMessage(`§7${id} = ${data}`);
+                const [x1, z1, x2, z2] = data.split(":");
+                player.sendMessage(`§7${id.replace("jmfz:", "")} §8- §7x1: ${x1}, z1: ${z1}, x2: ${x2}, z2: ${z2}`);
             });
             break;
         case "flyinterval":
@@ -96,6 +114,7 @@ const firstSpawn = world.afterEvents.playerSpawn.subscribe(() => {
     }
     const intervalDynProp = world.getDynamicProperty("jmfc:interval");
     if (intervalDynProp) interval = parseInt(intervalDynProp);
+    registerInterval();
     world.afterEvents.playerSpawn.unsubscribe(firstSpawn);
 });
 
@@ -140,5 +159,3 @@ function setFlyPose(flyPoseNum, coords) {
         flypos2 = { x: Math.round(x), z: Math.round(z) };
     }
 }
-
-registerInterval();
