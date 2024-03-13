@@ -13,16 +13,19 @@ It will maybe sometimes destroy your fly in creative so if you can't fly in crea
 
 Available commands:
 
+WARNING: chat commands don't work in stable so you will have to use the /scriptevent command to use the commands. Use the following format: /scriptevent jm:(command)
+
 - !flyhelp: Displays a list of available commands you can use.
 - !flypos1: Sets the first corner of your flight zone to your current location.
 - !flypos2: Sets the second corner of your flight zone to your current location. The flight zone will be a   rectangle defined by these two corners.
 - !flyzone (name): Creates a flight zone with the name you specify. The zone will be defined by the positions you set with !flypos1 and !flypos2.
 - !flydelete (name): Deletes the flight zone with the name you specify.
 - !flyshowall: Shows all existing flight zones.
+- !flyinterval (interval): Set the interval in ticks for checking the flight zone. The default interval is 160 ticks.
 
 ## requirements
 
-1. Script api version 1.8.0-beta
+1. Script api version 1.8.0
 2. @minecraft/server
 3. education edition toggle
 
