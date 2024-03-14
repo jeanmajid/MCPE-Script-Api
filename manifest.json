@@ -1,0 +1,55 @@
+{
+    "format_version": 2,
+    "header": {
+        "name": "MCPE-Script-API github repo",
+        "description": "",
+        "uuid": "89b22a36-4fa8-4fcc-a29c-b8e6c2d5449d",
+        "version": [
+            1,
+            0,
+            0
+        ],
+        "min_engine_version": [
+            1,
+            20,
+            40
+        ]
+    },
+    "modules": [
+        {
+            "type": "data",
+            "uuid": "dd6f2af1-ed8c-4b94-9b08-cdc2335b6b42",
+            "version": [
+                1,
+                0,
+                0
+            ]
+        },
+        {
+            "type": "script",
+            "language": "javascript",
+            "uuid": "7a496e74-772d-4a4d-8f29-a70042a35fd4",
+            "version": [
+                1,
+                0,
+                0
+            ],
+            "entry": "scripts/index.js"
+        }
+    ],
+    "metadata": {
+        "authors": [
+            "Jean majid"
+        ]
+    },
+    "dependencies": [
+        {
+            "module_name": "@minecraft/server",
+            "version": "1.8.0"
+        },
+        {
+            "module_name": "@minecraft/server-ui",
+            "version": "1.2.0-beta"
+        }
+    ]
+}
