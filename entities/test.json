@@ -1,0 +1,25 @@
+{
+    "format_version": "1.20.80",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "etc:physics_object",
+            "is_spawnable": true,
+            "is_summonable": true,
+            "is_experimental": false,
+            "properties": {
+                "example:float": {
+                    "type": "float",
+                    "range": [
+                        0.0,
+                        10.0
+                    ],
+                    "default": 2.4,
+                    "client_sync": true
+                }
+            }
+        },
+        "component_groups": {},
+        "components": {},
+        "events": {}
+    }
+}
