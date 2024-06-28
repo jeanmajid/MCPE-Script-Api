@@ -12,7 +12,8 @@ Script made by:
 Fell free to use and modify it as you wish. Try to learn from it, not just copy and paste and maybe give some credit to me in any way shape or form. :)
 */
 
-import { world, system, Vector } from "@minecraft/server";
+import { world, system } from "@minecraft/server";
+import { spawnRandomItems } from "./test";
 
 const range = 12;
 const strengthMultiplier = 0.04;
@@ -25,9 +26,17 @@ system.runInterval(() => {
         const entities = player.dimension.getEntities({ type: "item", location, maxDistance: range });
         for (let i = 0; i < entities.length; i++) {
             const entity = entities[i];
-            const direction = Vector.subtract(location, entity.location);
+            const direction = subtractVector(location, entity.location);
             direction.y += 1;
-            entity.applyImpulse(Vector.multiply(direction, strengthMultiplier));
+            entity.applyImpulse(multiplyVector(direction, strengthMultiplier));
         }
     }
 }, 1);
+
+function multiplyVector(vector, scalar) {
+    return { x: vector.x * scalar, y: vector.y * scalar, z: vector.z * scalar };
+}
+
+function subtractVector(vector1, vector2) {
+    return { x: vector1.x - vector2.x, y: vector1.y - vector2.y, z: vector1.z - vector2.z };
+}

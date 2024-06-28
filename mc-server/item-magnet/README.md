@@ -11,7 +11,7 @@ This is a simple item magnet script that will make items move towards the player
 
 ## requirements
 
-1. Script api version 1.8.0-beta (would probably also work in stable)
+1. Script api any version
 2. @minecraft/server
 
 ## please read
