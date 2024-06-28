@@ -13,7 +13,6 @@ Fell free to use and modify it as you wish. Try to learn from it, not just copy 
 */
 
 import { world, system } from "@minecraft/server";
-import { spawnRandomItems } from "./test";
 
 const range = 12;
 const strengthMultiplier = 0.04;
