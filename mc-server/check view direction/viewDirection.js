@@ -18,17 +18,13 @@ function normalizeVector(vector) {
 }
 
 system.runInterval(() => {
-    const players = world.getAllPlayers();
-    for (let i = 0; i < players.length; i++) {
-        const player = players[i];
+    for (const player of world.getAllPlayers()) {
         const vd = normalizeVector(player.getViewDirection());
-        const entities = player.dimension.getEntities();
-        for (let j = 0; j < entities.length; j++) {
-            const entity = entities[j];
+        for (const entity of player.dimension.getEntities()) {
             const toEntity = normalizeVector(subtractVectors(entity.location, player.location));
             const dotProduct = vd.x * toEntity.x + vd.y * toEntity.y + vd.z * toEntity.z;
             if (dotProduct > 0.4) {
-                player.sendMessage(`Entity ${entities[j].typeId} is in the field of view`);
+                player.sendMessage(`Entity ${entity.typeId} is in the field of view`);
             }
         }
     }

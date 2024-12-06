@@ -4,8 +4,9 @@ let lastHealth = 20;
 
 world.afterEvents.playerSpawn.subscribe((data) => {
     data.player.getComponent("health").setCurrentValue(lastHealth);
-    world.getDimension("overworld").runCommandAsync("gamerule naturalregeneration false");
-    world.getDimension("overworld").runCommandAsync("gamerule doimmediaterespawn true");
+    const overworld = world.getDimension("overworld");
+    overworld.runCommandAsync("gamerule naturalregeneration false");
+    overworld.runCommandAsync("gamerule doimmediaterespawn true");
 });
 
 world.afterEvents.entityHealthChanged.subscribe(
@@ -31,8 +32,7 @@ world.afterEvents.entityDie.subscribe(
 system.runInterval(() => {
     if (lastHealth > 19) return;
     lastHealth++;
-    const players = world.getAllPlayers();
-    for (let i = 0; i < players.length; i++) {
-        players[i].getComponent("health").setCurrentValue(lastHealth);
+    for (const player of world.getAllPlayers()) {
+        player.getComponent("health").setCurrentValue(lastHealth);
     }
 }, 60);

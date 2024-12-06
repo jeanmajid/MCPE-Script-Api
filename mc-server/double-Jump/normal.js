@@ -21,9 +21,7 @@ const strength = 2.5;
 const vertical = 0.5;
 
 system.runInterval(() => {
-    const players = world.getPlayers({ excludeGameModes: ["creative"] });
-    for (let i = 0; i < players.length; i++) {
-        const player = players[i];
+    for (const player of world.getPlayers({ excludeGameModes: ["creative"] })) {
         if (player.isOnGround) {
             player.hasJumped = false;
             continue;

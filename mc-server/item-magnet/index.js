@@ -18,13 +18,9 @@ const range = 12;
 const strengthMultiplier = 0.04;
 
 system.runInterval(() => {
-    const players = world.getPlayers();
-    for (let i = 0; i < players.length; i++) {
-        const player = players[i];
+    for (const player of world.getAllPlayers()) {
         const location = player.location;
-        const entities = player.dimension.getEntities({ type: "item", location, maxDistance: range });
-        for (let i = 0; i < entities.length; i++) {
-            const entity = entities[i];
+        for (const entity of player.dimension.getEntities({ type: "item", location, maxDistance: range })) {
             const direction = subtractVector(location, entity.location);
             direction.y += 1;
             entity.applyImpulse(multiplyVector(direction, strengthMultiplier));
